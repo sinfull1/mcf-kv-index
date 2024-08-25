@@ -14,7 +14,7 @@ public class IndexKey implements Comparable<IndexKey> {
     @Override
     public int compareTo(IndexKey o) {
         if (o.getKey().equals(this.key)) {
-            return o.getIndex() - this.getIndex() + o.getIndex1() - this.getIndex1();
+            return Math.abs(o.getIndex() - this.getIndex()) + Math.abs(o.getIndex1() - this.getIndex1());
         }
         return o.getKey().compareTo(this.key);
     }
