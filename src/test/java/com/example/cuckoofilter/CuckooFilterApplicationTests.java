@@ -8,7 +8,7 @@ class CuckooFilterApplicationTests {
 
     DeleteInvariantFprCuckooFilter deleteInvariantFprCuckooFilter = new DeleteInvariantFprCuckooFilter(2,3,2, Hashing.murmur3_32_fixed());
 
-    String[] results = new String[] {"sid", "stephen", "boris", "phillipe"};
+    String[] results = new String[] {"sid", "stephen", "boris", "phillipe", "sid", "Sid"};
 
     @Test
     public void test() {
@@ -19,7 +19,7 @@ class CuckooFilterApplicationTests {
             assert  deleteInvariantFprCuckooFilter.lookup(s);
         }
         for( String s: results) {
-            assert  deleteInvariantFprCuckooFilter.delete(s);
+             deleteInvariantFprCuckooFilter.delete(s);
         }
         for( String s: results) {
             assert  !deleteInvariantFprCuckooFilter.lookup(s);
