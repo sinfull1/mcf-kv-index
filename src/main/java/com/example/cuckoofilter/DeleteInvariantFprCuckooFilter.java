@@ -23,7 +23,7 @@ public class DeleteInvariantFprCuckooFilter {
         buckets = new TreeMap[this.numBuckets][this.bucketSize];
         for (int i = 0; i < this.numBuckets; i++) {
             for (int j = 0; j < this.bucketSize; j++) {
-                buckets[i][j] = new TreeMap<String, Boolean>();
+                buckets[i][j] = new TreeMap<>();
             }
         }
     }
@@ -38,13 +38,7 @@ public class DeleteInvariantFprCuckooFilter {
         }
         int counter = 0;
         System.out.println("Coll:" + counter);
-        System.out.println(collisionStore.toString());
-    }
-
-    public void populate() {
-        for (int i = 1; i < 1000000; i++) {
-            this.insert(UUID.randomUUID().toString());
-        }
+        System.out.println(collisionStore);
     }
 
     // Insert an item into the Cuckoo filter

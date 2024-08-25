@@ -38,11 +38,6 @@ public class StableMembershipAdminController {
         return deleteInvariantFprCuckooFilter.delete(id);
     }
 
-    @GetMapping("/populate")
-    public void populate() {
-        deleteInvariantFprCuckooFilter.populate();
-    }
-
     @GetMapping("/print/{index}/{index1}")
     public void print(@PathVariable("index") int index, @PathVariable("index1") int index1) {
         //cuckooFilter.print(index, index1);
