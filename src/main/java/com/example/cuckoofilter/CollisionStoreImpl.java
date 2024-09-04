@@ -1,18 +1,29 @@
 package com.example.cuckoofilter;
 
+import com.google.common.hash.HashFunction;
+import com.google.common.hash.Hashing;
+
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-public class CollisionStoreImpl implements CollisionStore<IndexKey, TreeSet<String>, String> {
+public class CollisionStoreImpl implements CollisionStore<IndexKey, TreeSet<Integer>, Integer, String> {
 
-    private final TreeMap<IndexKey, TreeSet<String>> collisions = new TreeMap<>();
+    private final TreeMap<IndexKey, TreeSet<Integer>> collisions = new TreeMap<>();
 
-    public void addCollection(IndexKey key, TreeSet<String> collection) {
+    private final HashFunction doubleHashingFunction = Hashing.adler32();
+    public void addCollection(IndexKey key, TreeSet<Integer> collection) {
         collisions.putIfAbsent(key, collection);
     }
 
-    public boolean contains(IndexKey key, String value) {
+    public int getDoubleHash(String item)  {
+        return doubleHashingFunction.hashBytes(item.getBytes()).asInt();
+    }
+
+
+
+    public boolean contains(IndexKey key, String input) {
+        int value = getDoubleHash(input);
         if (collisions.get(key) != null) {
             return false;
         } else {
@@ -21,30 +32,31 @@ public class CollisionStoreImpl implements CollisionStore<IndexKey, TreeSet<Stri
     }
 
 
-    public void addItemInCollection(IndexKey key, String value) {
+    public void addItemInCollection(IndexKey key, String input) {
+        int value = getDoubleHash(input);
         if (collisions.get(key) != null) {
-            Set<String> set = collisions.get(key);
+            Set<Integer> set = collisions.get(key);
             set.add(value);
         } else {
-            TreeSet<String> treeSet = new TreeSet<>();
+            TreeSet<Integer> treeSet = new TreeSet<>();
             treeSet.add(value);
             this.addCollection(key, treeSet);
         }
     }
 
-    public void removeItemFromCollection(IndexKey key, String value) {
+    public void removeItemFromCollection(IndexKey key, String input) {
+        int value = getDoubleHash(input);
         if (collisions.get(key) == null) {
             System.out.println("Item not in collection");
          //   return false;
         } else {
-            TreeSet<String> treeSet = collisions.get(key);
+            TreeSet<Integer> treeSet = collisions.get(key);
             treeSet.remove(value);
             if (!treeSet.isEmpty()) {
                 this.addCollection(key, treeSet);
             } else {
                 removeCollection(key);
             }
-       //     return true;
         }
     }
 
