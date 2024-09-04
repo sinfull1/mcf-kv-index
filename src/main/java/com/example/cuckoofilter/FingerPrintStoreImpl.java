@@ -37,7 +37,7 @@ public class FingerPrintStoreImpl implements  FingerPrintStore<String> {
 
     @Override
     public boolean add(String value) {
-        IndexKey key = getIndexKey(value);
+      //  IndexKey key = getIndexKey(value);
 
         return false;
     }
